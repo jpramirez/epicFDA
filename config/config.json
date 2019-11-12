@@ -1,0 +1,11 @@
+{
+    "webport":"443",
+    "webaddress":"0.0.0.0",
+    "apiurl" : "https://api.fda.gov/download.json",
+    "appname":"epicFDAFetcher",
+    "logfile":"epicFDA.log",
+    "datasetfolder":"./DataSetFolder/",
+    "databasename":"epicFDA.db",
+    "keyfile":"./extras/ssl/server.key",
+    "crtfile":"./extras/ssl/server.crt"
+}
