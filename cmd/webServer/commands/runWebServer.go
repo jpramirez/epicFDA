@@ -7,17 +7,18 @@ import (
 
 	"github.com/spf13/cobra"
 
-	constants "github.com/jpramirez/epicFDA/pkg/constants"
-	fetcher "github.com/jpramirez/epicFDA/pkg/fetcher"
 	models "github.com/jpramirez/epicFDA/pkg/models"
+
+	"github.com/jpramirez/epicFDA/pkg/constants"
 	utils "github.com/jpramirez/epicFDA/pkg/utils"
+	"github.com/jpramirez/epicFDA/pkg/web"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "epicFetcher",
-	Short: "Fetcher for EPIC FDA API",
-	Long:  `A Fast and Flexible on FDA Analysis Platform`,
-	RunE:  runFetcher,
+	Use:   "epicFDAServer",
+	Short: "Epic FDA Controller",
+	Long:  `A Fast and Flexible FDA Search platform`,
+	RunE:  runWebServer,
 }
 
 //Execute will run the desire module command.
@@ -38,7 +39,8 @@ func init() {
 	rootCmd.PersistentFlags().Bool("default", true, "Use default configuration")
 }
 
-func runFetcher(cmd *cobra.Command, args []string) error {
+func runWebServer(cmd *cobra.Command, args []string) error {
+
 	config, err := utils.LoadConfiguration(cfgFile)
 	if err != nil {
 		log.Fatalln("Error and Exiting")
@@ -51,18 +53,10 @@ func runFetcher(cmd *cobra.Command, args []string) error {
 	defer f.Close()
 	log.SetOutput(f)
 
-	_fetch, err := fetcher.NewFetcher(config, constants.BuildVersion, constants.BuildTime)
+	webagent, err := web.NewWebAgent(config, constants.BuildVersion, constants.BuildTime)
 	if err != nil {
 		log.Fatalln("Error on newebagent call ", err)
 	}
-	results, err := _fetch.FetchFDA()
-
-	_fetch.DownloadAnimalAndVeterinary(results.Results.AnimalAndVeterinary)
-	_fetch.DownloadFood(results.Results.Food)
-	_fetch.DownloadDrug(results.Results.Drug)
-	_fetch.DownloadDevice(results.Results.Device)
-
-	fmt.Println("Finished")
-
+	webagent.StartServer()
 	return err
 }

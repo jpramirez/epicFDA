@@ -2,7 +2,7 @@ TIME=$(shell date +"%Y%m%d.%H%M%S")
 VERSION=0.1.1-alpha-0.8
 BINARY_NAME=epicFDAFetcher
 
-BINARY_NAME_SERVER=epicFDAFetcher
+BINARY_NAME_SERVER=epicFDAFetcher-server.v1
 
 
 BUILD_FOLDER  = $(shell pwd)/build
@@ -24,6 +24,8 @@ check-env:
 	cp -R config $(BUILD_FOLDER)/dist/windows/
 	cp -R config $(BUILD_FOLDER)/dist/arm/
 	cp -R config $(BUILD_FOLDER)/dist/osx/
+	cp -R extras $(BUILD_FOLDER)/dist/linux/
+	cp -R assets $(BUILD_FOLDER)/dist/linux/
 
 
 
@@ -39,13 +41,15 @@ getdeps:
 	./getDeps.sh
 
 
-
-
 versioning:
 	./version.sh ${VERSION} ${TIME}
 
+build/weblayer-linux:
+	cd cmd/webServer && ${FLAGS_LINUX} go build -o ${BUILD_FOLDER}/dist/linux/bin/${BINARY_NAME_SERVER} .
+
+
 build/fetcher-linux:
-	cd cmd/runFetcher && ${FLAGS_LINUX} go build -o ${BUILD_FOLDER}/dist/linux/bin/${BINARY_NAME_SERVER} .
+	cd cmd/runFetcher && ${FLAGS_LINUX} go build -o ${BUILD_FOLDER}/dist/linux/bin/${BINARY_NAME} .
 
 run/dev:
 	cd build/dist/linux && bin/${BINARY_NAME_SERVER} --config config/config.json

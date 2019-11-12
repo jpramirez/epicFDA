@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="Audio Professional Services. Editing."/>
+<title>EpicFDA - FDA Auditing Tool</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.1.1/vuex.min.js" integrity="sha256-6XOQHnT/ZYiLvi5YuVz7lX1dsxa7GFoQb1Q9mRdtHWU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.1.3/vue-router.min.js" integrity="sha256-r/vPIUvTobCpYZsMmvU7HM58cNd4D6/vdICqDFapV7Y=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/main.css">
+
+<!-- Component Load -->
+<script src="/static/js/components/notifications.js"></script>
+<script src="/static/js/components/UploadFormComponent.js"></script>
+<script src="/static/js/components/ProductOfferingComponent.js"></script>
+<script src="/static/js/components/FooterComponent.js"></script>
+<script src="/static/js/components/NavigationComponent.js"></script>
+
+
+<script src="/static/js/components/MainComponent.js"></script>
+
+
+
+<!-- Main Web App load-->
+<script src="/static/js/app.js"></script>
+
+</head>
+<body>
+<main>
+<div id="app">
+      <router-view></router-view>
+      <notifications></notifications>
+</div>
+</main>
+</body>
+</html>

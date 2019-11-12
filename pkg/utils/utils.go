@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	models "github.com/jpramirez/EpicFDA/pkg/models"
+	models "github.com/jpramirez/epicFDA/pkg/models"
 )
 
 //LoadConfiguration loads the req

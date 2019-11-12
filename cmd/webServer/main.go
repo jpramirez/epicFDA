@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jpramirez/epicFDA/cmd/runFetcher/commands"
+	"github.com/jpramirez/epicFDA/cmd/webServer/commands"
 )
 
 func main() {

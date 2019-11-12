@@ -1,5 +1,5 @@
 {
-    "webport":"443",
+    "webport":"8888",
     "webaddress":"0.0.0.0",
     "apiurl" : "https://api.fda.gov/download.json",
     "appname":"epicFDAFetcher",
