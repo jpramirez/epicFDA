@@ -32,7 +32,7 @@ type Results struct {
 //SaveIndex will save the FDA json file index in the destination folder for future reference or use.
 func (R *FDADownload) SaveIndex(Destination string) error {
 	file, _ := json.MarshalIndent(R, "", " ")
-	folderPath := Destination + R.Meta.LastUpdated
+	folderPath := Destination
 	os.MkdirAll(folderPath, os.ModePerm)
 	_ = ioutil.WriteFile(folderPath+"/"+"index.json", file, 0644)
 

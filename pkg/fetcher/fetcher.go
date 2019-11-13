@@ -43,6 +43,19 @@ func NewFetcher(config models.Config, BuildVersion string, BuidTime string) (Fet
 //FetchFDA will fetch https://api.fda.gov/download.json
 func (F *FetcherOne) FetchFDA() (models.FDADownload, error) {
 	var err error
+	
+	filepath := F.config.DataSetFolder + "/index.json"
+	if _, err := os.Stat(filepath); err == nil {
+		fmt.Println("File Exists") // We dont download again
+		jsonFile, err := os.Open(filepath) 
+		if err != nil {
+			fmt.Println("Reading file failed", err)
+		}
+		reader := new(models.FDADownload)
+		json.NewDecoder(jsonFile).Decode(reader)
+		return *reader, nil
+	}
+
 	download := new(models.FDADownload)
 	err = getJSON(F.config.APIURL, download)
 	//For now we print the results

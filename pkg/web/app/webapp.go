@@ -87,6 +87,122 @@ func renderError(w http.ResponseWriter, message string, statusCode int) {
 	w.Write([]byte(message))
 }
 
+
+//DownloadDeviceDataSet will download only the latest drug dataset
+func (M *MainWebApp) DownloadDeviceDataSet (w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.Header().Set("Allow", "GET")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	_fetch, err := fetcher.NewFetcher(M.Config, constants.BuildVersion, constants.BuildTime)
+	if err != nil {
+		log.Fatalln("Error on newebagent call ", err)
+	}
+	results, err := _fetch.FetchFDA()
+	go _fetch.DownloadDevice (results.Results.Device)
+
+	var response JResponse
+
+	response.ResponseCode = "200 OK"
+	response.Message = "Device Dataset Download Started"
+	response.ResponseData = []byte("")
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "Application/json")
+	w.Write(js)
+
+}
+
+//DownloadFoodDataSet will download only the latest drug dataset
+func (M *MainWebApp) DownloadFoodDataSet (w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.Header().Set("Allow", "GET")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	_fetch, err := fetcher.NewFetcher(M.Config, constants.BuildVersion, constants.BuildTime)
+	if err != nil {
+		log.Fatalln("Error on newebagent call ", err)
+	}
+	results, err := _fetch.FetchFDA()
+	go _fetch.DownloadFood (results.Results.Food)
+
+	var response JResponse
+
+	response.ResponseCode = "200 OK"
+	response.Message = "Food Dataset Download Started"
+	response.ResponseData = []byte("")
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "Application/json")
+	w.Write(js)
+
+}
+
+//DownloadAnimalDataSet will download only the latest drug dataset
+func (M *MainWebApp) DownloadAnimalDataSet (w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.Header().Set("Allow", "GET")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	_fetch, err := fetcher.NewFetcher(M.Config, constants.BuildVersion, constants.BuildTime)
+	if err != nil {
+		log.Fatalln("Error on newebagent call ", err)
+	}
+	results, err := _fetch.FetchFDA()
+	go _fetch.DownloadAnimalAndVeterinary (results.Results.AnimalAndVeterinary)
+
+	var response JResponse
+
+	response.ResponseCode = "200 OK"
+	response.Message = "Animal and Veterinary Dataset Download Started"
+	response.ResponseData = []byte("")
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "Application/json")
+	w.Write(js)
+
+}
+
+//DownloadDrugDataSet will download only the latest drug dataset
+func (M *MainWebApp) DownloadDrugDataSet (w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.Header().Set("Allow", "GET")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	_fetch, err := fetcher.NewFetcher(M.Config, constants.BuildVersion, constants.BuildTime)
+	if err != nil {
+		log.Fatalln("Error on newebagent call ", err)
+	}
+	results, err := _fetch.FetchFDA()
+	go _fetch.DownloadDrug(results.Results.Drug)
+
+	var response JResponse
+
+	response.ResponseCode = "200 OK"
+	response.Message = "Drug Dataset Download Started"
+	response.ResponseData = []byte("")
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "Application/json")
+	w.Write(js)
+
+}
 //DownloadIndex will download the entire json index from FDA
 func (M *MainWebApp) DownloadIndex(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {

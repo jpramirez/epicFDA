@@ -58,6 +58,8 @@ func runFetcher(cmd *cobra.Command, args []string) error {
 	results, err := _fetch.FetchFDA()
 
 	_fetch.DownloadAnimalAndVeterinary(results.Results.AnimalAndVeterinary)
+	results.SaveIndex(config.DataSetFolder)
+	
 	_fetch.DownloadFood(results.Results.Food)
 	_fetch.DownloadDrug(results.Results.Drug)
 	_fetch.DownloadDevice(results.Results.Device)

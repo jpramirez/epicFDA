@@ -30,7 +30,10 @@ check-env:
 
 
 
+gen_proto:
+	third_party/proto-gen.sh
 
+	
 ## Linting
 lint:
 	@echo "[lint] Running linter on codebase"
@@ -58,8 +61,14 @@ run/dev:
 
 build/dev: check-env build/fetcher-linux run/dev
 
+
+
+
 clean:
 	rm -Rvf build/dist/
+
+
+build/all: clean check-env build/fetcher-linux build/weblayer-linux
 
 
 package-linux:
