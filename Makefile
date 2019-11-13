@@ -41,6 +41,8 @@ getdeps:
 	./getDeps.sh
 
 
+
+
 versioning:
 	./version.sh ${VERSION} ${TIME}
 
@@ -58,3 +60,8 @@ build/dev: check-env build/fetcher-linux run/dev
 
 clean:
 	rm -Rvf build/dist/
+
+
+package-linux:
+	cd build/dist/ && tar zcvf linux-dist.tar.gz linux/
+	cd build/dist/ && zip -9 linux-dist.zip -r linux/	

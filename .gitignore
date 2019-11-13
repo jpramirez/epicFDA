@@ -1,6 +1,9 @@
 build/
 upload/
 venv/
+github/
+#ignore keyfiles 
+*.pem
 # ignore server configuration
 *.azcli
 
