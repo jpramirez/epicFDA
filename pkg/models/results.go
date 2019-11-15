@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	v1 "github.com/jpramirez/epicFDA/pkg/api/v1"
+
 )
 
 //FDADownload is the entire callback determined by https://api.fda.gov/download.json
@@ -37,4 +39,11 @@ func (R *FDADownload) SaveIndex(Destination string) error {
 	_ = ioutil.WriteFile(folderPath+"/"+"index.json", file, 0644)
 
 	return nil
+}
+
+
+//FoodEnformentResults is the entire callback determined by https://api.fda.gov/download.json
+type JsonFoodEnformentResults struct {
+	Meta    Meta    `json:"meta"`
+	Results []v1.FoodEnforcement `json:"results"`
 }

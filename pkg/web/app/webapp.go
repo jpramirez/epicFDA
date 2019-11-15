@@ -18,6 +18,10 @@ import (
 	constants "github.com/jpramirez/epicFDA/pkg/constants"
 	fetcher "github.com/jpramirez/epicFDA/pkg/fetcher"
 	models "github.com/jpramirez/epicFDA/pkg/models"
+	"github.com/jpramirez/epicFDA/pkg/storage"
+	"github.com/jpramirez/epicFDA/pkg/wrangler"
+	
+
 )
 
 type JResponse struct {
@@ -248,6 +252,37 @@ func (M *MainWebApp) Liveness(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+
+func (M *MainWebApp) LoadFoodEnforcement (w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		w.Header().Set("Allow", "GET")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+
+	cassandraSession := cassandra.Session
+
+	var wr  wrangler.WranglerObj
+
+	wr.Session = cassandraSession
+
+	wr.ReadJsonFromFile("DataSetFolder/Food/Enforcement/2019-11-12/food/enforcementdata/food-enforcement-0001-of-0001.json")
+	
+
+	var response JResponse
+	response.ResponseCode = "200 OK"
+	response.Message = "alive"
+	response.ResponseData = []byte("")
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "Application/json")
+	w.Write(js)
+}
+
 //HandleIndex for serving SPA
 func (M *MainWebApp) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.New("").ParseGlob("assets/templates/*.html"))
@@ -292,3 +327,6 @@ func countryFlag(x string) string {
 	}
 	return string(0x1F1E6+rune(x[0])-'A') + string(0x1F1E6+rune(x[1])-'A')
 }
+
+
+

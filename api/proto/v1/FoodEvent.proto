@@ -2,9 +2,10 @@ syntax = 'proto3';
 
 package v1;
 
-// Message FoodEvent holds the structure for json file
-message FoodEvent {
-    string FoodEventID = 1;
+// Message FoodEnforcement holds the structure for json file
+
+message FoodEnforcement {
+    string FoodEnforcementID = 1;
     string  classification = 2;
     string center_classification_date = 3;
     string   report_date = 4;
