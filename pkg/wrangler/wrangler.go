@@ -20,15 +20,28 @@ type WranglerObj struct {
 	Session *gocql.Session
 }
 
-func (W *WranglerObj) ReadJsonFromFile (fileName string) {
-	fmt.Println("Reading FILE")
+func (W *WranglerObj) ReadJsonFoodEventFromFile (fileName string) {
 	var result models.JsonFoodEnformentResults
 	file, _ := ioutil.ReadFile(fileName)
 	err := json.Unmarshal(file, &result)
 	if err != nil {
 		log.Println("Error?")
 	}
+	for _, enforcement := range result.Results{
+		W.SaveFoodEnforcement(enforcement)
+	}
+}
 
+
+
+
+func (W *WranglerObj) ReadJsonFoodEnforcementFromFile (fileName string) {
+	var result models.JsonFoodEnformentResults
+	file, _ := ioutil.ReadFile(fileName)
+	err := json.Unmarshal(file, &result)
+	if err != nil {
+		log.Println("Error?")
+	}
 	for _, enforcement := range result.Results{
 		W.SaveFoodEnforcement(enforcement)
 	}
@@ -43,12 +56,9 @@ func (W *WranglerObj) ReadJsonFromFile (fileName string) {
 */
 func (W *WranglerObj) SaveFoodEnforcement (foodEvent v1.FoodEnforcement) error {
 	var gocqlUuid gocql.UUID
-	fmt.Println("Saving Record")
 
-	var errs []string
 	var err error
 
-	var created bool = false
 	gocqlUuid = gocql.TimeUUID()
 
 
@@ -63,7 +73,7 @@ func (W *WranglerObj) SaveFoodEnforcement (foodEvent v1.FoodEnforcement) error {
 
 
 	// write data to Cassandra
-	if err := W.Session.Query(`
+	err = W.Session.Query(`
 	  INSERT INTO FoodEnforcement (
 		FoodEnforcementID 
 		,classification
@@ -94,17 +104,19 @@ func (W *WranglerObj) SaveFoodEnforcement (foodEvent v1.FoodEnforcement) error {
 	  gocqlUuid, foodEvent.Classification, foodEvent.CenterClassificationDate,foodEvent.ReportDate, foodEvent.PostalCode, foodEvent.TerminationDate,
 	  foodEvent.RecallInitiationDate,foodEvent.RecallNumber,foodEvent.City,foodEvent.MoreCodeInfo,foodEvent.EventId,foodEvent.DistributionPattern,foodEvent.RecallingFirm, 
 	  foodEvent.VoluntaryMandated,foodEvent.State,foodEvent.ReasonForRecall,foodEvent.InitialFirmNotification,foodEvent.Status,foodEvent.ProductType,foodEvent.Country,
-	  foodEvent.ProductDescription, foodEvent.CodeInfo,foodEvent.Address_1,foodEvent.Address_2,foodEvent.ProductQuantity).Exec(); err != nil {
-		  errs = append(errs, err.Error())
-	} else {
-	  created = true
+	  foodEvent.ProductDescription, foodEvent.CodeInfo,foodEvent.Address_1,foodEvent.Address_2,foodEvent.ProductQuantity).Exec()
+
+	if (err!= nil){
+		fmt.Println("Something Happened ", err)
 	}
 
-	if created {
-		fmt.Println("Record created ")
-	} else {
-		fmt.Println("Something Happened", errs)
-	}
+
+	return err
+}
+
+
+func (W *WranglerObj) SaveFoodEvent (foodEvent v1.FoodEvent) error {
+	var err error
 
 	return err
 }

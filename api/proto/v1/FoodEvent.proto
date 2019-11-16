@@ -13,6 +13,14 @@ package v1;
         }
         */
 
+
+
+/*      "consumer": {
+        "gender": "M",
+        "age": "54",
+        "age_unit": "year(s)"
+      }
+*/
 message Product {
     string ProductID = 1;
     string NameBrand = 2;
@@ -21,12 +29,6 @@ message Product {
     string IndustryName =5;
 }
 
-/*      "consumer": {
-        "gender": "M",
-        "age": "54",
-        "age_unit": "year(s)"
-      }
-*/
 
 message Consumer {
     string ConsumerID = 1;
