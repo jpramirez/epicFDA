@@ -2,33 +2,80 @@ syntax = 'proto3';
 
 package v1;
 
-// Message FoodEnforcement holds the structure for json file
+// Message FoodEvent holds the structure for json file
+      /*
+      "products": [
+        {
+          "name_brand": "LIFESMIRACLE BY DR. WAYNE GARLAND",
+          "industry_code": "54",
+          "role": "SUSPECT",
+          "industry_name": "Vit/Min/Prot/Unconv Diet(Human/Animal)"
+        }
+        */
 
-message FoodEnforcement {
-    string FoodEnforcementID = 1;
-    string  classification = 2;
-    string center_classification_date = 3;
-    string   report_date = 4;
-    string  postal_code = 5;
-    string termination_date = 6;
-    string recall_initiation_date = 7;
-    string recall_number = 8;
-    string city = 9;
-    string more_code_info = 10;
-    string event_id = 11;
-    string distribution_pattern = 12;
-    string openfda = 13;
-    string recalling_firm = 14;
-    string voluntary_mandated = 15;
-    string state = 16;
-    string reason_for_recall = 17;
-    string initial_firm_notification = 18;
-    string status = 19;
-    string product_type = 20;
-    string country = 21;
-    string product_description = 22;
-    string code_info = 23;
-    string address_1 = 24;
-    string address_2 = 25;
-    string product_quantity = 26;
+message Product {
+    string ProductID = 1;
+    string NameBrand = 2;
+    string IndustryCode = 3;
+    string Role = 4;
+    string IndustryName =5;
 }
+
+/*      "consumer": {
+        "gender": "M",
+        "age": "54",
+        "age_unit": "year(s)"
+      }
+*/
+
+message Consumer {
+    string ConsumerID = 1;
+    string Gender = 2;
+    string Age = 3;
+    string AgeUnit =4;
+}
+
+message FoodEvent {
+    string FoodEventID = 1;
+    repeated string Reactions = 2;
+    int64 ReportNumber =3;
+    repeated string Outcomes =4 ;
+    repeated Product Products = 5;
+    string DateCreated =6;
+    string DateStarted = 7;
+    Consumer Consumer = 8;
+}
+
+
+/*
+  "results": [
+    {
+      "reactions": [
+        "TENSION",
+        "STRESS",
+        "IMPAIRED HEALING",
+        "INSOMNIA",
+        "SEXUAL ACTIVITY INCREASED",
+        "BLOOD GLUCOSE FLUCTUATION",
+        "MENTAL IMPAIRMENT"
+      ],
+      "report_number": "100366",
+      "outcomes": [
+        "Medically Important",
+        "Required Intervention",
+        "Disability",
+        "Patient Visited Healthcare Provider"
+      ],
+      "products": [
+        {
+          "name_brand": "LIFESMIRACLE BY DR. WAYNE GARLAND",
+          "industry_code": "54",
+          "role": "SUSPECT",
+          "industry_name": "Vit/Min/Prot/Unconv Diet(Human/Animal)"
+        }
+      ],
+      "date_created": "20080214",
+      "date_started": "20080205",
+
+    },
+*/

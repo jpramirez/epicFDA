@@ -20,285 +20,264 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type FoodEnforcement struct {
-	FoodEnforcementID        string   `protobuf:"bytes,1,opt,name=FoodEnforcementID,proto3" json:"FoodEnforcementID,omitempty"`
-	Classification           string   `protobuf:"bytes,2,opt,name=classification,proto3" json:"classification,omitempty"`
-	CenterClassificationDate string   `protobuf:"bytes,3,opt,name=center_classification_date,json=centerClassificationDate,proto3" json:"center_classification_date,omitempty"`
-	ReportDate               string   `protobuf:"bytes,4,opt,name=report_date,json=reportDate,proto3" json:"report_date,omitempty"`
-	PostalCode               string   `protobuf:"bytes,5,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
-	TerminationDate          string   `protobuf:"bytes,6,opt,name=termination_date,json=terminationDate,proto3" json:"termination_date,omitempty"`
-	RecallInitiationDate     string   `protobuf:"bytes,7,opt,name=recall_initiation_date,json=recallInitiationDate,proto3" json:"recall_initiation_date,omitempty"`
-	RecallNumber             string   `protobuf:"bytes,8,opt,name=recall_number,json=recallNumber,proto3" json:"recall_number,omitempty"`
-	City                     string   `protobuf:"bytes,9,opt,name=city,proto3" json:"city,omitempty"`
-	MoreCodeInfo             string   `protobuf:"bytes,10,opt,name=more_code_info,json=moreCodeInfo,proto3" json:"more_code_info,omitempty"`
-	EventId                  string   `protobuf:"bytes,11,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
-	DistributionPattern      string   `protobuf:"bytes,12,opt,name=distribution_pattern,json=distributionPattern,proto3" json:"distribution_pattern,omitempty"`
-	Openfda                  string   `protobuf:"bytes,13,opt,name=openfda,proto3" json:"openfda,omitempty"`
-	RecallingFirm            string   `protobuf:"bytes,14,opt,name=recalling_firm,json=recallingFirm,proto3" json:"recalling_firm,omitempty"`
-	VoluntaryMandated        string   `protobuf:"bytes,15,opt,name=voluntary_mandated,json=voluntaryMandated,proto3" json:"voluntary_mandated,omitempty"`
-	State                    string   `protobuf:"bytes,16,opt,name=state,proto3" json:"state,omitempty"`
-	ReasonForRecall          string   `protobuf:"bytes,17,opt,name=reason_for_recall,json=reasonForRecall,proto3" json:"reason_for_recall,omitempty"`
-	InitialFirmNotification  string   `protobuf:"bytes,18,opt,name=initial_firm_notification,json=initialFirmNotification,proto3" json:"initial_firm_notification,omitempty"`
-	Status                   string   `protobuf:"bytes,19,opt,name=status,proto3" json:"status,omitempty"`
-	ProductType              string   `protobuf:"bytes,20,opt,name=product_type,json=productType,proto3" json:"product_type,omitempty"`
-	Country                  string   `protobuf:"bytes,21,opt,name=country,proto3" json:"country,omitempty"`
-	ProductDescription       string   `protobuf:"bytes,22,opt,name=product_description,json=productDescription,proto3" json:"product_description,omitempty"`
-	CodeInfo                 string   `protobuf:"bytes,23,opt,name=code_info,json=codeInfo,proto3" json:"code_info,omitempty"`
-	Address_1                string   `protobuf:"bytes,24,opt,name=address_1,json=address1,proto3" json:"address_1,omitempty"`
-	Address_2                string   `protobuf:"bytes,25,opt,name=address_2,json=address2,proto3" json:"address_2,omitempty"`
-	ProductQuantity          string   `protobuf:"bytes,26,opt,name=product_quantity,json=productQuantity,proto3" json:"product_quantity,omitempty"`
-	XXX_NoUnkeyedLiteral     struct{} `json:"-"`
-	XXX_unrecognized         []byte   `json:"-"`
-	XXX_sizecache            int32    `json:"-"`
+type Product struct {
+	ProductID            string   `protobuf:"bytes,1,opt,name=ProductID,proto3" json:"ProductID,omitempty"`
+	NameBrand            string   `protobuf:"bytes,2,opt,name=NameBrand,proto3" json:"NameBrand,omitempty"`
+	IndustryCode         string   `protobuf:"bytes,3,opt,name=IndustryCode,proto3" json:"IndustryCode,omitempty"`
+	Role                 string   `protobuf:"bytes,4,opt,name=Role,proto3" json:"Role,omitempty"`
+	IndustryName         string   `protobuf:"bytes,5,opt,name=IndustryName,proto3" json:"IndustryName,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *FoodEnforcement) Reset()         { *m = FoodEnforcement{} }
-func (m *FoodEnforcement) String() string { return proto.CompactTextString(m) }
-func (*FoodEnforcement) ProtoMessage()    {}
-func (*FoodEnforcement) Descriptor() ([]byte, []int) {
+func (m *Product) Reset()         { *m = Product{} }
+func (m *Product) String() string { return proto.CompactTextString(m) }
+func (*Product) ProtoMessage()    {}
+func (*Product) Descriptor() ([]byte, []int) {
 	return fileDescriptor_884d35be91b9b723, []int{0}
 }
 
-func (m *FoodEnforcement) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_FoodEnforcement.Unmarshal(m, b)
+func (m *Product) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Product.Unmarshal(m, b)
 }
-func (m *FoodEnforcement) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_FoodEnforcement.Marshal(b, m, deterministic)
+func (m *Product) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Product.Marshal(b, m, deterministic)
 }
-func (m *FoodEnforcement) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FoodEnforcement.Merge(m, src)
+func (m *Product) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Product.Merge(m, src)
 }
-func (m *FoodEnforcement) XXX_Size() int {
-	return xxx_messageInfo_FoodEnforcement.Size(m)
+func (m *Product) XXX_Size() int {
+	return xxx_messageInfo_Product.Size(m)
 }
-func (m *FoodEnforcement) XXX_DiscardUnknown() {
-	xxx_messageInfo_FoodEnforcement.DiscardUnknown(m)
+func (m *Product) XXX_DiscardUnknown() {
+	xxx_messageInfo_Product.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_FoodEnforcement proto.InternalMessageInfo
+var xxx_messageInfo_Product proto.InternalMessageInfo
 
-func (m *FoodEnforcement) GetFoodEnforcementID() string {
+func (m *Product) GetProductID() string {
 	if m != nil {
-		return m.FoodEnforcementID
+		return m.ProductID
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetClassification() string {
+func (m *Product) GetNameBrand() string {
 	if m != nil {
-		return m.Classification
+		return m.NameBrand
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetCenterClassificationDate() string {
+func (m *Product) GetIndustryCode() string {
 	if m != nil {
-		return m.CenterClassificationDate
+		return m.IndustryCode
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetReportDate() string {
+func (m *Product) GetRole() string {
 	if m != nil {
-		return m.ReportDate
+		return m.Role
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetPostalCode() string {
+func (m *Product) GetIndustryName() string {
 	if m != nil {
-		return m.PostalCode
+		return m.IndustryName
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetTerminationDate() string {
+type Consumer struct {
+	ConsumerID           string   `protobuf:"bytes,1,opt,name=ConsumerID,proto3" json:"ConsumerID,omitempty"`
+	Gender               string   `protobuf:"bytes,2,opt,name=Gender,proto3" json:"Gender,omitempty"`
+	Age                  string   `protobuf:"bytes,3,opt,name=Age,proto3" json:"Age,omitempty"`
+	AgeUnit              string   `protobuf:"bytes,4,opt,name=AgeUnit,proto3" json:"AgeUnit,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Consumer) Reset()         { *m = Consumer{} }
+func (m *Consumer) String() string { return proto.CompactTextString(m) }
+func (*Consumer) ProtoMessage()    {}
+func (*Consumer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_884d35be91b9b723, []int{1}
+}
+
+func (m *Consumer) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Consumer.Unmarshal(m, b)
+}
+func (m *Consumer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Consumer.Marshal(b, m, deterministic)
+}
+func (m *Consumer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Consumer.Merge(m, src)
+}
+func (m *Consumer) XXX_Size() int {
+	return xxx_messageInfo_Consumer.Size(m)
+}
+func (m *Consumer) XXX_DiscardUnknown() {
+	xxx_messageInfo_Consumer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Consumer proto.InternalMessageInfo
+
+func (m *Consumer) GetConsumerID() string {
 	if m != nil {
-		return m.TerminationDate
+		return m.ConsumerID
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetRecallInitiationDate() string {
+func (m *Consumer) GetGender() string {
 	if m != nil {
-		return m.RecallInitiationDate
+		return m.Gender
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetRecallNumber() string {
+func (m *Consumer) GetAge() string {
 	if m != nil {
-		return m.RecallNumber
+		return m.Age
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetCity() string {
+func (m *Consumer) GetAgeUnit() string {
 	if m != nil {
-		return m.City
+		return m.AgeUnit
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetMoreCodeInfo() string {
+type FoodEvent struct {
+	FoodEventID          string     `protobuf:"bytes,1,opt,name=FoodEventID,proto3" json:"FoodEventID,omitempty"`
+	Reactions            []string   `protobuf:"bytes,2,rep,name=Reactions,proto3" json:"Reactions,omitempty"`
+	ReportNumber         int64      `protobuf:"varint,3,opt,name=ReportNumber,proto3" json:"ReportNumber,omitempty"`
+	Outcomes             []string   `protobuf:"bytes,4,rep,name=Outcomes,proto3" json:"Outcomes,omitempty"`
+	Products             []*Product `protobuf:"bytes,5,rep,name=Products,proto3" json:"Products,omitempty"`
+	DateCreated          string     `protobuf:"bytes,6,opt,name=DateCreated,proto3" json:"DateCreated,omitempty"`
+	DateStarted          string     `protobuf:"bytes,7,opt,name=DateStarted,proto3" json:"DateStarted,omitempty"`
+	Consumer             *Consumer  `protobuf:"bytes,8,opt,name=Consumer,proto3" json:"Consumer,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *FoodEvent) Reset()         { *m = FoodEvent{} }
+func (m *FoodEvent) String() string { return proto.CompactTextString(m) }
+func (*FoodEvent) ProtoMessage()    {}
+func (*FoodEvent) Descriptor() ([]byte, []int) {
+	return fileDescriptor_884d35be91b9b723, []int{2}
+}
+
+func (m *FoodEvent) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FoodEvent.Unmarshal(m, b)
+}
+func (m *FoodEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FoodEvent.Marshal(b, m, deterministic)
+}
+func (m *FoodEvent) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FoodEvent.Merge(m, src)
+}
+func (m *FoodEvent) XXX_Size() int {
+	return xxx_messageInfo_FoodEvent.Size(m)
+}
+func (m *FoodEvent) XXX_DiscardUnknown() {
+	xxx_messageInfo_FoodEvent.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FoodEvent proto.InternalMessageInfo
+
+func (m *FoodEvent) GetFoodEventID() string {
 	if m != nil {
-		return m.MoreCodeInfo
+		return m.FoodEventID
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetEventId() string {
+func (m *FoodEvent) GetReactions() []string {
 	if m != nil {
-		return m.EventId
+		return m.Reactions
+	}
+	return nil
+}
+
+func (m *FoodEvent) GetReportNumber() int64 {
+	if m != nil {
+		return m.ReportNumber
+	}
+	return 0
+}
+
+func (m *FoodEvent) GetOutcomes() []string {
+	if m != nil {
+		return m.Outcomes
+	}
+	return nil
+}
+
+func (m *FoodEvent) GetProducts() []*Product {
+	if m != nil {
+		return m.Products
+	}
+	return nil
+}
+
+func (m *FoodEvent) GetDateCreated() string {
+	if m != nil {
+		return m.DateCreated
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetDistributionPattern() string {
+func (m *FoodEvent) GetDateStarted() string {
 	if m != nil {
-		return m.DistributionPattern
+		return m.DateStarted
 	}
 	return ""
 }
 
-func (m *FoodEnforcement) GetOpenfda() string {
+func (m *FoodEvent) GetConsumer() *Consumer {
 	if m != nil {
-		return m.Openfda
+		return m.Consumer
 	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetRecallingFirm() string {
-	if m != nil {
-		return m.RecallingFirm
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetVoluntaryMandated() string {
-	if m != nil {
-		return m.VoluntaryMandated
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetState() string {
-	if m != nil {
-		return m.State
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetReasonForRecall() string {
-	if m != nil {
-		return m.ReasonForRecall
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetInitialFirmNotification() string {
-	if m != nil {
-		return m.InitialFirmNotification
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetStatus() string {
-	if m != nil {
-		return m.Status
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetProductType() string {
-	if m != nil {
-		return m.ProductType
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetCountry() string {
-	if m != nil {
-		return m.Country
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetProductDescription() string {
-	if m != nil {
-		return m.ProductDescription
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetCodeInfo() string {
-	if m != nil {
-		return m.CodeInfo
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetAddress_1() string {
-	if m != nil {
-		return m.Address_1
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetAddress_2() string {
-	if m != nil {
-		return m.Address_2
-	}
-	return ""
-}
-
-func (m *FoodEnforcement) GetProductQuantity() string {
-	if m != nil {
-		return m.ProductQuantity
-	}
-	return ""
+	return nil
 }
 
 func init() {
-	proto.RegisterType((*FoodEnforcement)(nil), "v1.FoodEnforcement")
+	proto.RegisterType((*Product)(nil), "v1.Product")
+	proto.RegisterType((*Consumer)(nil), "v1.Consumer")
+	proto.RegisterType((*FoodEvent)(nil), "v1.FoodEvent")
 }
 
 func init() { proto.RegisterFile("FoodEvent.proto", fileDescriptor_884d35be91b9b723) }
 
 var fileDescriptor_884d35be91b9b723 = []byte{
-	// 535 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x93, 0x4d, 0x6f, 0x1a, 0x3f,
-	0x10, 0xc6, 0x95, 0xfc, 0x93, 0x10, 0x86, 0xb7, 0x30, 0xf0, 0x27, 0x26, 0x39, 0xf4, 0xbd, 0x6a,
-	0xab, 0xbe, 0x88, 0xb4, 0xa7, 0xaa, 0xb7, 0x50, 0x24, 0x0e, 0x8d, 0xda, 0xa8, 0x77, 0xcb, 0xac,
-	0xbd, 0x95, 0xa5, 0x5d, 0x7b, 0xeb, 0xf5, 0x22, 0xf1, 0x99, 0xfb, 0x25, 0xaa, 0x1d, 0x1b, 0x58,
-	0xd2, 0x1b, 0xf3, 0xfc, 0x9e, 0x59, 0x3f, 0x9a, 0x19, 0x60, 0xb0, 0xb0, 0x56, 0x7e, 0x5d, 0x2b,
-	0xe3, 0xdf, 0x17, 0xce, 0x7a, 0x8b, 0xc7, 0xeb, 0xd9, 0xd3, 0x3f, 0xad, 0xa8, 0x9b, 0xd4, 0xba,
-	0x44, 0xe5, 0xca, 0x78, 0x7c, 0x0b, 0xc3, 0x07, 0xd2, 0x72, 0xce, 0x8e, 0x1e, 0x1f, 0xbd, 0x6a,
-	0xdf, 0xff, 0x0b, 0xf0, 0x25, 0xf4, 0x93, 0x4c, 0x94, 0xa5, 0x4e, 0x75, 0x22, 0xbc, 0xb6, 0x86,
-	0x1d, 0x93, 0xf5, 0x81, 0x8a, 0x5f, 0xe0, 0x2a, 0x51, 0xc6, 0x2b, 0xc7, 0x0f, 0x01, 0x97, 0xc2,
-	0x2b, 0xf6, 0x1f, 0xf5, 0xb0, 0xe0, 0xb8, 0x3d, 0x30, 0xcc, 0x85, 0x57, 0xf8, 0x08, 0x3a, 0x4e,
-	0x15, 0xd6, 0xf9, 0x60, 0x3f, 0x21, 0x3b, 0x04, 0x69, 0x6b, 0x28, 0x6c, 0xe9, 0x45, 0xc6, 0x13,
-	0x2b, 0x15, 0x3b, 0x0d, 0x86, 0x20, 0xdd, 0x5a, 0xa9, 0xf0, 0x35, 0x5c, 0x78, 0xe5, 0x72, 0x6d,
-	0x1a, 0xaf, 0x9e, 0x91, 0x6b, 0xd0, 0xd0, 0xe9, 0x5b, 0x9f, 0x60, 0xe2, 0x54, 0x22, 0xb2, 0x8c,
-	0x6b, 0xa3, 0xbd, 0x6e, 0x34, 0xb4, 0xa8, 0x61, 0x1c, 0xe8, 0x72, 0x07, 0xa9, 0xeb, 0x19, 0xf4,
-	0x62, 0x97, 0xa9, 0xf2, 0x95, 0x72, 0xec, 0x9c, 0xcc, 0xdd, 0x20, 0xde, 0x91, 0x86, 0x08, 0x27,
-	0x89, 0xf6, 0x1b, 0xd6, 0x26, 0x46, 0xbf, 0xf1, 0x39, 0xf4, 0x73, 0xeb, 0x14, 0x05, 0xe7, 0xda,
-	0xa4, 0x96, 0x41, 0xe8, 0xac, 0xd5, 0x3a, 0xfb, 0xd2, 0xa4, 0x16, 0xa7, 0x70, 0xae, 0xea, 0xe5,
-	0x71, 0x2d, 0x59, 0x87, 0x78, 0x8b, 0xea, 0xa5, 0xc4, 0x19, 0x8c, 0xa5, 0x2e, 0xbd, 0xd3, 0xab,
-	0x8a, 0xa2, 0x16, 0xc2, 0x7b, 0xe5, 0x0c, 0xeb, 0x92, 0x6d, 0xd4, 0x64, 0xdf, 0x03, 0x42, 0x06,
-	0x2d, 0x5b, 0x28, 0x93, 0x4a, 0xc1, 0x7a, 0xe1, 0x63, 0xb1, 0xc4, 0x17, 0xd0, 0x0f, 0x89, 0xb5,
-	0xf9, 0xc5, 0x53, 0xed, 0x72, 0xd6, 0x27, 0x43, 0x6f, 0xa7, 0x2e, 0xb4, 0xcb, 0xf1, 0x1d, 0xe0,
-	0xda, 0x66, 0x95, 0xf1, 0xc2, 0x6d, 0x78, 0x2e, 0x4c, 0x3d, 0x1e, 0xc9, 0x06, 0xe1, 0x4a, 0x76,
-	0xe4, 0x5b, 0x04, 0x38, 0x86, 0xd3, 0xd2, 0xd7, 0x13, 0xbc, 0x20, 0x47, 0x28, 0xf0, 0x0d, 0x0c,
-	0x9d, 0x12, 0xa5, 0x35, 0x3c, 0xb5, 0x8e, 0x87, 0x07, 0xd8, 0x30, 0x2c, 0x25, 0x80, 0x85, 0x75,
-	0xf7, 0x24, 0xe3, 0x67, 0x98, 0x86, 0x6d, 0x64, 0x94, 0x8a, 0x1b, 0xeb, 0xf7, 0x27, 0x87, 0xd4,
-	0x73, 0x19, 0x0d, 0x75, 0xc0, 0xbb, 0x06, 0xc6, 0x09, 0x9c, 0xd5, 0x0f, 0x56, 0x25, 0x1b, 0x91,
-	0x31, 0x56, 0xf8, 0x04, 0xba, 0x85, 0xb3, 0xb2, 0x4a, 0x3c, 0xf7, 0x9b, 0x42, 0xb1, 0x31, 0xd1,
-	0x4e, 0xd4, 0x7e, 0x6e, 0x0a, 0x55, 0x0f, 0x2a, 0xb1, 0x95, 0xf1, 0x6e, 0xc3, 0xfe, 0x0f, 0x83,
-	0x8a, 0x25, 0x7e, 0x80, 0xd1, 0xb6, 0x59, 0xaa, 0x32, 0x71, 0xba, 0xa0, 0x28, 0x13, 0x72, 0x61,
-	0x44, 0xf3, 0x3d, 0xc1, 0x6b, 0x68, 0xef, 0x57, 0x7c, 0x49, 0xb6, 0xf3, 0x64, 0xbb, 0xde, 0x6b,
-	0x68, 0x0b, 0x29, 0x9d, 0x2a, 0x4b, 0x3e, 0x63, 0x2c, 0xc0, 0x28, 0xcc, 0x9a, 0xf0, 0x86, 0x4d,
-	0x0f, 0xe0, 0x4d, 0x7d, 0xd8, 0xdb, 0x1c, 0xbf, 0x2b, 0x61, 0x7c, 0x7d, 0x5e, 0x57, 0x61, 0x86,
-	0x51, 0xff, 0x11, 0xe5, 0xd5, 0x19, 0xfd, 0xf1, 0x3f, 0xfe, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xf8,
-	0xc0, 0xe1, 0x12, 0x0b, 0x04, 0x00, 0x00,
+	// 328 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x92, 0x4f, 0x6a, 0xf3, 0x30,
+	0x10, 0xc5, 0xb1, 0x9d, 0x3f, 0xce, 0x38, 0xf0, 0x7d, 0xcc, 0xa2, 0x88, 0x52, 0x8a, 0xf1, 0xa6,
+	0x5e, 0x05, 0x92, 0x9e, 0x20, 0x4d, 0xda, 0x92, 0x4d, 0x5a, 0x54, 0x7a, 0x00, 0x27, 0x1a, 0x42,
+	0xa0, 0x96, 0x82, 0x2c, 0x07, 0x7a, 0x9c, 0xf6, 0xa4, 0x45, 0x8e, 0xac, 0xd8, 0xbb, 0x99, 0xdf,
+	0x1b, 0x69, 0x9e, 0x9f, 0x05, 0xff, 0x5e, 0x94, 0x12, 0xcf, 0x67, 0x92, 0x66, 0x76, 0xd2, 0xca,
+	0x28, 0x0c, 0xcf, 0xf3, 0xec, 0x27, 0x80, 0xf1, 0xbb, 0x56, 0xa2, 0xde, 0x1b, 0xbc, 0x83, 0x89,
+	0x2b, 0x37, 0x6b, 0x16, 0xa4, 0x41, 0x3e, 0xe1, 0x57, 0x60, 0xd5, 0x6d, 0x51, 0xd2, 0x93, 0x2e,
+	0xa4, 0x60, 0xe1, 0x45, 0xf5, 0x00, 0x33, 0x98, 0x6e, 0xa4, 0xa8, 0x2b, 0xa3, 0xbf, 0x57, 0x4a,
+	0x10, 0x8b, 0x9a, 0x81, 0x1e, 0x43, 0x84, 0x01, 0x57, 0x5f, 0xc4, 0x06, 0x8d, 0xd6, 0xd4, 0xdd,
+	0x73, 0xf6, 0x32, 0x36, 0xec, 0x9f, 0xb3, 0x2c, 0x93, 0x10, 0xaf, 0x94, 0xac, 0xea, 0x92, 0x34,
+	0xde, 0x03, 0xb4, 0xb5, 0x37, 0xd9, 0x21, 0x78, 0x03, 0xa3, 0x57, 0x92, 0x82, 0xb4, 0xb3, 0xe8,
+	0x3a, 0xfc, 0x0f, 0xd1, 0xf2, 0xd0, 0xda, 0xb2, 0x25, 0x32, 0x18, 0x2f, 0x0f, 0xf4, 0x29, 0x8f,
+	0xc6, 0x19, 0x6a, 0xdb, 0xec, 0x37, 0x84, 0x89, 0xcf, 0x0a, 0x53, 0x48, 0x7c, 0xe3, 0x57, 0x76,
+	0x91, 0x4d, 0x86, 0x53, 0xb1, 0x37, 0x47, 0x25, 0x2b, 0x16, 0xa6, 0x91, 0x4d, 0xc6, 0x03, 0xfb,
+	0x85, 0x9c, 0x4e, 0x4a, 0x9b, 0x6d, 0x5d, 0xee, 0x48, 0x37, 0x16, 0x22, 0xde, 0x63, 0x78, 0x0b,
+	0xf1, 0x5b, 0x6d, 0xf6, 0xaa, 0xa4, 0x8a, 0x0d, 0x9a, 0x0b, 0x7c, 0x8f, 0x0f, 0x10, 0xbb, 0x9f,
+	0x50, 0xb1, 0x61, 0x1a, 0xe5, 0xc9, 0x22, 0x99, 0x9d, 0xe7, 0x33, 0xc7, 0xb8, 0x17, 0xad, 0xd1,
+	0x75, 0x61, 0x68, 0xa5, 0xa9, 0x30, 0x24, 0xd8, 0xe8, 0x62, 0xb4, 0x83, 0xda, 0x89, 0x0f, 0x53,
+	0x68, 0x3b, 0x31, 0xbe, 0x4e, 0x38, 0x84, 0xf9, 0x35, 0x6a, 0x16, 0xa7, 0x41, 0x9e, 0x2c, 0xa6,
+	0x76, 0x59, 0xcb, 0xb8, 0x57, 0x77, 0xa3, 0xe6, 0x0d, 0x3d, 0xfe, 0x05, 0x00, 0x00, 0xff, 0xff,
+	0x4e, 0x8a, 0xff, 0x4a, 0x56, 0x02, 0x00, 0x00,
 }
