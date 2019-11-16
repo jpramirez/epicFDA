@@ -1,9 +1,3 @@
-CREATE KEYSPACE epicfda WITH replication = {
-	'class' : 'NetworkTopologyStrategy',
-	'datacenter1' : 1,
-	'datacenter2' : 1
-};
- 
 CREATE TABLE epicfda.FoodEnforcement(
   FoodEnforcementID           UUID primary key,
   ,classification             VARCHAR  

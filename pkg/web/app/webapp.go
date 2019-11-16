@@ -48,6 +48,7 @@ type MainWebApp struct {
 	Log    *log.Logger
 	Config models.Config
 	Store  *sessions.CookieStore
+	Storage *cassandra.StorageCassandra
 }
 
 //GetFileContentType will get the mime type of the file by reading its first 512 bytes (according to the standard)
@@ -77,6 +78,10 @@ func NewApp(config models.Config) (MainWebApp, error) {
 	wapp.Config = config
 	wapp.Log = log
 	wapp.Store = sessions.NewCookieStore([]byte("7b24afc8bc80e548d66c4e7ff72171c5"))
+	var cs  cassandra.StorageCassandra
+	cs.Config = config
+	cs.Init()
+	wapp.Storage = &cs
 
 	log.Println("NewAPP ---> Loggig Location")
 	return wapp, err
@@ -261,12 +266,10 @@ func (M *MainWebApp) LoadFoodEnforcement (w http.ResponseWriter, r *http.Request
 	}
 
 
-	cassandraSession := cassandra.Session
 
 	var wr  wrangler.WranglerObj
-
-	wr.Session = cassandraSession
-
+	wr.Session = M.Storage.Session
+	/// HERE we need to replace with a search base on the file chosen by the url we can list for example  the zip files and decompress on demand.
 	wr.ReadJsonFromFile("DataSetFolder/Food/Enforcement/2019-11-12/food/enforcementdata/food-enforcement-0001-of-0001.json")
 	
 

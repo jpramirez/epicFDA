@@ -11,4 +11,6 @@ type Config struct {
 	KeyFile      string   `json:"keyfile"`
 	DataSetFolder string   `json:"datasetfolder"`
 	CrtFile      string   `json:"crtfile"`
+	CassandraHost []string `json:"cassandra"`
+	CassandraKeySpace string `json:"cassandrakeyspace"`
 }
