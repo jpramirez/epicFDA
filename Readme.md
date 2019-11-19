@@ -90,3 +90,10 @@ This will zip files and make a distribution, Version is inside the bashfile to c
 For demo on downloading on AWS
 
 ![](docs/images/2019-11-13_10-46-17.gif)
+
+
+The current development enviroment for this application is set to:
+
+1./ Standard OS Box from osboxes.org
+2./ VPN hub with OpenVPN on a droplet on Digital Ocean.(for Remote development)
+3./ Loading Agent can run anywhere including local computer. 
