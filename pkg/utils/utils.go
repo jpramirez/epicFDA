@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	models "github.com/jpramirez/epicFDA/pkg/models"
 )
@@ -24,4 +25,16 @@ func LoadConfiguration(file string) (models.Config, error) {
 //DebugMessage will just be use to ease message control.
 func DebugMessage(message string) {
 	fmt.Printf(message)
+}
+
+func ListFiles(root string) ([]string, error) {
+
+	var files []string
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		files = append(files, path)
+		return nil
+	})
+
+	return files, err
+
 }

@@ -1,76 +1,91 @@
 package wrangler
 
-
 // This package is meant to read zipped information, and load DAtabases, we need the storage module for this to work.
 
 import (
+	"path/filepath"
+
 	v1 "github.com/jpramirez/epicFDA/pkg/api/v1"
 	models "github.com/jpramirez/epicFDA/pkg/models"
+	utils "github.com/jpramirez/epicFDA/pkg/utils"
 
-	"github.com/gocql/gocql"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"time"
-	"io/ioutil"
-	"fmt"
-)
 
+	"github.com/gocql/gocql"
+)
 
 type WranglerObj struct {
 	Session *gocql.Session
 }
 
-func (W *WranglerObj) ReadJsonFoodEventFromFile (fileName string) {
+func (W *WranglerObj) ReadJsonFoodEventFromFile(fileName string) {
 	var result models.JsonFoodEnformentResults
 	file, _ := ioutil.ReadFile(fileName)
 	err := json.Unmarshal(file, &result)
 	if err != nil {
 		log.Println("Error?")
 	}
-	for _, enforcement := range result.Results{
+	for _, enforcement := range result.Results {
 		W.SaveFoodEnforcement(enforcement)
 	}
 }
 
-
-
-
-func (W *WranglerObj) ReadJsonFoodEnforcementFromFile (fileName string) {
+func (W *WranglerObj) ReadJsonFoodEnforcementFromFile(fileName string) {
 	var result models.JsonFoodEnformentResults
 	file, _ := ioutil.ReadFile(fileName)
 	err := json.Unmarshal(file, &result)
 	if err != nil {
 		log.Println("Error?")
 	}
-	for _, enforcement := range result.Results{
+	for _, enforcement := range result.Results {
 		W.SaveFoodEnforcement(enforcement)
 	}
+}
+
+//FindDataSet will return a full path of the dataset to load,
+//Returns
+func (W *WranglerObj) FindDataSet(datadir string, filename string, DataSetType string) []string {
+	var results []string
+
+	files, _ := utils.ListFiles(datadir + "/" + DataSetType)
+	for _, file := range files {
+		if filename == "all" {
+			extension := filepath.Ext(file)
+			if extension == ".zip" {
+				results = append(results, file)
+			}
+		}
+	}
+	return results
 }
 
 /*
-,center_classification_date DATE  
-,report_date                DATE  
-,postal_code                int  
-,termination_date           DATE  
-,recall_initiation_date     DATE  
+,center_classification_date DATE
+,report_date                DATE
+,postal_code                int
+,termination_date           DATE
+,recall_initiation_date     DATE
+
 */
-func (W *WranglerObj) SaveFoodEnforcement (foodEvent v1.FoodEnforcement) error {
+func (W *WranglerObj) SaveFoodEnforcement(foodEvent v1.FoodEnforcement) error {
 	var gocqlUuid gocql.UUID
 
 	var err error
 
 	gocqlUuid = gocql.TimeUUID()
 
-
-	_reportDate,err:= time.Parse("20060102",foodEvent.ReportDate)
+	_reportDate, err := time.Parse("20060102", foodEvent.ReportDate)
 	foodEvent.ReportDate = _reportDate.Format("2006-01-02")
-	_reportDate,err = time.Parse("20060102",foodEvent.CenterClassificationDate)
+	_reportDate, err = time.Parse("20060102", foodEvent.CenterClassificationDate)
 	foodEvent.CenterClassificationDate = _reportDate.Format("2006-01-02")
-	_reportDate,err = time.Parse("20060102",foodEvent.TerminationDate)
+	_reportDate, err = time.Parse("20060102", foodEvent.TerminationDate)
 	foodEvent.TerminationDate = _reportDate.Format("2006-01-02")
-	_reportDate,err = time.Parse("20060102",foodEvent.RecallInitiationDate)
+	_reportDate, err = time.Parse("20060102", foodEvent.RecallInitiationDate)
 	foodEvent.RecallInitiationDate = _reportDate.Format("2006-01-02")
-
 
 	// write data to Cassandra
 	err = W.Session.Query(`
@@ -101,21 +116,19 @@ func (W *WranglerObj) SaveFoodEnforcement (foodEvent v1.FoodEnforcement) error {
 		,address_2
 		,product_quantity
 	  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?, ?)`,
-	  gocqlUuid, foodEvent.Classification, foodEvent.CenterClassificationDate,foodEvent.ReportDate, foodEvent.PostalCode, foodEvent.TerminationDate,
-	  foodEvent.RecallInitiationDate,foodEvent.RecallNumber,foodEvent.City,foodEvent.MoreCodeInfo,foodEvent.EventId,foodEvent.DistributionPattern,foodEvent.RecallingFirm, 
-	  foodEvent.VoluntaryMandated,foodEvent.State,foodEvent.ReasonForRecall,foodEvent.InitialFirmNotification,foodEvent.Status,foodEvent.ProductType,foodEvent.Country,
-	  foodEvent.ProductDescription, foodEvent.CodeInfo,foodEvent.Address_1,foodEvent.Address_2,foodEvent.ProductQuantity).Exec()
+		gocqlUuid, foodEvent.Classification, foodEvent.CenterClassificationDate, foodEvent.ReportDate, foodEvent.PostalCode, foodEvent.TerminationDate,
+		foodEvent.RecallInitiationDate, foodEvent.RecallNumber, foodEvent.City, foodEvent.MoreCodeInfo, foodEvent.EventId, foodEvent.DistributionPattern, foodEvent.RecallingFirm,
+		foodEvent.VoluntaryMandated, foodEvent.State, foodEvent.ReasonForRecall, foodEvent.InitialFirmNotification, foodEvent.Status, foodEvent.ProductType, foodEvent.Country,
+		foodEvent.ProductDescription, foodEvent.CodeInfo, foodEvent.Address_1, foodEvent.Address_2, foodEvent.ProductQuantity).Exec()
 
-	if (err!= nil){
+	if err != nil {
 		fmt.Println("Something Happened ", err)
 	}
-
 
 	return err
 }
 
-
-func (W *WranglerObj) SaveFoodEvent (foodEvent v1.FoodEvent) error {
+func (W *WranglerObj) SaveFoodEvent(foodEvent v1.FoodEvent) error {
 	var err error
 
 	return err

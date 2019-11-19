@@ -18,10 +18,8 @@ import (
 	constants "github.com/jpramirez/epicFDA/pkg/constants"
 	fetcher "github.com/jpramirez/epicFDA/pkg/fetcher"
 	models "github.com/jpramirez/epicFDA/pkg/models"
-	"github.com/jpramirez/epicFDA/pkg/storage"
+	cassandra "github.com/jpramirez/epicFDA/pkg/storage"
 	"github.com/jpramirez/epicFDA/pkg/wrangler"
-	
-
 )
 
 type JResponse struct {
@@ -44,10 +42,10 @@ type ResponseFileStatus struct {
 
 //MainWebApp PHASE
 type MainWebApp struct {
-	Mux    *mux.Router
-	Log    *log.Logger
-	Config models.Config
-	Store  *sessions.CookieStore
+	Mux     *mux.Router
+	Log     *log.Logger
+	Config  models.Config
+	Store   *sessions.CookieStore
 	Storage *cassandra.StorageCassandra
 }
 
@@ -78,7 +76,7 @@ func NewApp(config models.Config) (MainWebApp, error) {
 	wapp.Config = config
 	wapp.Log = log
 	wapp.Store = sessions.NewCookieStore([]byte("7b24afc8bc80e548d66c4e7ff72171c5"))
-	var cs  cassandra.StorageCassandra
+	var cs cassandra.StorageCassandra
 	cs.Config = config
 	cs.Init()
 	wapp.Storage = &cs
@@ -96,9 +94,8 @@ func renderError(w http.ResponseWriter, message string, statusCode int) {
 	w.Write([]byte(message))
 }
 
-
 //DownloadDeviceDataSet will download only the latest drug dataset
-func (M *MainWebApp) DownloadDeviceDataSet (w http.ResponseWriter, r *http.Request) {
+func (M *MainWebApp) DownloadDeviceDataSet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		w.Header().Set("Allow", "GET")
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -109,7 +106,7 @@ func (M *MainWebApp) DownloadDeviceDataSet (w http.ResponseWriter, r *http.Reque
 		log.Fatalln("Error on newebagent call ", err)
 	}
 	results, err := _fetch.FetchFDA()
-	go _fetch.DownloadDevice (results.Results.Device)
+	go _fetch.DownloadDevice(results.Results.Device)
 
 	var response JResponse
 
@@ -127,7 +124,7 @@ func (M *MainWebApp) DownloadDeviceDataSet (w http.ResponseWriter, r *http.Reque
 }
 
 //DownloadFoodDataSet will download only the latest drug dataset
-func (M *MainWebApp) DownloadFoodDataSet (w http.ResponseWriter, r *http.Request) {
+func (M *MainWebApp) DownloadFoodDataSet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		w.Header().Set("Allow", "GET")
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -138,7 +135,7 @@ func (M *MainWebApp) DownloadFoodDataSet (w http.ResponseWriter, r *http.Request
 		log.Fatalln("Error on newebagent call ", err)
 	}
 	results, err := _fetch.FetchFDA()
-	go _fetch.DownloadFood (results.Results.Food)
+	go _fetch.DownloadFood(results.Results.Food)
 
 	var response JResponse
 
@@ -156,7 +153,7 @@ func (M *MainWebApp) DownloadFoodDataSet (w http.ResponseWriter, r *http.Request
 }
 
 //DownloadAnimalDataSet will download only the latest drug dataset
-func (M *MainWebApp) DownloadAnimalDataSet (w http.ResponseWriter, r *http.Request) {
+func (M *MainWebApp) DownloadAnimalDataSet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		w.Header().Set("Allow", "GET")
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -167,7 +164,7 @@ func (M *MainWebApp) DownloadAnimalDataSet (w http.ResponseWriter, r *http.Reque
 		log.Fatalln("Error on newebagent call ", err)
 	}
 	results, err := _fetch.FetchFDA()
-	go _fetch.DownloadAnimalAndVeterinary (results.Results.AnimalAndVeterinary)
+	go _fetch.DownloadAnimalAndVeterinary(results.Results.AnimalAndVeterinary)
 
 	var response JResponse
 
@@ -185,7 +182,7 @@ func (M *MainWebApp) DownloadAnimalDataSet (w http.ResponseWriter, r *http.Reque
 }
 
 //DownloadDrugDataSet will download only the latest drug dataset
-func (M *MainWebApp) DownloadDrugDataSet (w http.ResponseWriter, r *http.Request) {
+func (M *MainWebApp) DownloadDrugDataSet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		w.Header().Set("Allow", "GET")
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -212,6 +209,7 @@ func (M *MainWebApp) DownloadDrugDataSet (w http.ResponseWriter, r *http.Request
 	w.Write(js)
 
 }
+
 //DownloadIndex will download the entire json index from FDA
 func (M *MainWebApp) DownloadIndex(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
@@ -257,21 +255,24 @@ func (M *MainWebApp) Liveness(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-
-func (M *MainWebApp) LoadFoodEnforcement (w http.ResponseWriter, r *http.Request){
+func (M *MainWebApp) LoadFoodEnforcement(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		w.Header().Set("Allow", "GET")
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 
+	vars := mux.Vars(r)
+	dataset := vars["dataset"]
 
+	var wr wrangler.WranglerObj
 
-	var wr  wrangler.WranglerObj
 	wr.Session = M.Storage.Session
+
+	wr.FindDataSet(M.Config.DataSetFolder, dataset, "FoodEnforcement")
+
 	/// HERE we need to replace with a search base on the file chosen by the url we can list for example  the zip files and decompress on demand.
-	wr.ReadJsonFromFile("DataSetFolder/Food/Enforcement/2019-11-12/food/enforcementdata/food-enforcement-0001-of-0001.json")
-	
+	wr.ReadJsonFoodEnforcementFromFile("DataSetFolder/Food/Enforcement/2019-11-12/food/enforcementdata/food-enforcement-0001-of-0001.json")
 
 	var response JResponse
 	response.ResponseCode = "200 OK"
@@ -330,6 +331,3 @@ func countryFlag(x string) string {
 	}
 	return string(0x1F1E6+rune(x[0])-'A') + string(0x1F1E6+rune(x[1])-'A')
 }
-
-
-
