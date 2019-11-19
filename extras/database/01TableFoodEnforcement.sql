@@ -25,3 +25,5 @@ CREATE TABLE epicfda.FoodEnforcement(
   ,address_2                  VARCHAR 
   ,product_quantity           VARCHAR 
 );
+
+
