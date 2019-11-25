@@ -1,12 +1,12 @@
 CREATE TABLE epicfda.FoodEnforcement(
-  FoodEnforcementID           UUID primary key,
+  FoodEnforcementID           UUID,
   ,classification             VARCHAR  
   ,center_classification_date DATE  
   ,report_date                DATE  
   ,postal_code                VARCHAR  
   ,termination_date           DATE  
   ,recall_initiation_date     DATE  
-  ,recall_number              VARCHAR 
+  ,recall_number              VARCHAR
   ,city                       VARCHAR 
   ,more_code_info             VARCHAR
   ,event_id                   int  
@@ -23,7 +23,8 @@ CREATE TABLE epicfda.FoodEnforcement(
   ,code_info                  VARCHAR 
   ,address_1                  VARCHAR 
   ,address_2                  VARCHAR 
-  ,product_quantity           VARCHAR 
+  ,product_quantity           VARCHAR
+  ,PRIMARY KEY(recall_number, status)
 );
 
 

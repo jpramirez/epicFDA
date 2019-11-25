@@ -47,3 +47,8 @@ type JsonFoodEnformentResults struct {
 	Meta    Meta    `json:"meta"`
 	Results []v1.FoodEnforcement `json:"results"`
 }
+//JsonFoodEventResults is the entire callback determined by https://api.fda.gov/download.json
+type JsonFoodEventResults struct {
+	Meta    Meta    `json:"meta"`
+	Results []v1.FoodEvent `json:"results"`
+}

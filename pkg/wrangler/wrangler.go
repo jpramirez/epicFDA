@@ -4,7 +4,6 @@ package wrangler
 
 import (
 	"path/filepath"
-
 	v1 "github.com/jpramirez/epicFDA/pkg/api/v1"
 	models "github.com/jpramirez/epicFDA/pkg/models"
 	utils "github.com/jpramirez/epicFDA/pkg/utils"
@@ -23,23 +22,39 @@ type WranglerObj struct {
 }
 
 func (W *WranglerObj) ReadJsonFoodEventFromFile(fileName string) {
-	var result models.JsonFoodEnformentResults
+
+
+	extension := filepath.Ext(fileName)
+	if extension == ".zip" {
+		utils.Unzip(fileName, filepath.Dir(fileName))
+		fileName = utils.FilenameWithoutExtension(fileName)
+	}
+	
+	var result models.JsonFoodEventResults
 	file, _ := ioutil.ReadFile(fileName)
 	err := json.Unmarshal(file, &result)
 	if err != nil {
 		log.Println("Error?")
 	}
-	for _, enforcement := range result.Results {
-		W.SaveFoodEnforcement(enforcement)
+	for _, event := range result.Results {
+		W.SaveFoodEvent(event)
 	}
 }
 
 func (W *WranglerObj) ReadJsonFoodEnforcementFromFile(fileName string) {
+
+	extension := filepath.Ext(fileName)
+	if extension == ".zip" {
+		utils.Unzip(fileName, filepath.Dir(fileName))
+		fileName = utils.FilenameWithoutExtension(fileName)
+	}
+	
 	var result models.JsonFoodEnformentResults
+	fmt.Println(fileName)
 	file, _ := ioutil.ReadFile(fileName)
 	err := json.Unmarshal(file, &result)
 	if err != nil {
-		log.Println("Error?")
+		fmt.Println("Error? ", err)
 	}
 	for _, enforcement := range result.Results {
 		W.SaveFoodEnforcement(enforcement)
@@ -58,7 +73,12 @@ func (W *WranglerObj) FindDataSet(datadir string, filename string, DataSetType s
 			if extension == ".zip" {
 				results = append(results, file)
 			}
+		} else {
+			if filename == file {
+				results = append(results, file)
+			}
 		}
+
 	}
 	return results
 }
@@ -128,8 +148,144 @@ func (W *WranglerObj) SaveFoodEnforcement(foodEvent v1.FoodEnforcement) error {
 	return err
 }
 
+
+//SaveFoodEvent will save the struct into the different tables.
 func (W *WranglerObj) SaveFoodEvent(foodEvent v1.FoodEvent) error {
 	var err error
+	var gocqlUuid gocql.UUID
+
+	/*
+CREATE TABLE epicfda.FoodEvent (
+    FoodEventID UUID Primary Key
+    ,ReportNumber   int
+    ,DateCreated    DATE
+    ,DateStarted    DATE
+    ,PRIMARY KEY (ReportNumber)
+);
+	*/
+	fmt.Println(foodEvent)
+	
+	gocqlUuid = gocql.TimeUUID()
+
+	_reportDate, err := time.Parse("20060102", foodEvent.DateCreated)
+	foodEvent.DateCreated = _reportDate.Format("2006-01-02")
+	_reportDate, err = time.Parse("20060102", foodEvent.DateStarted)
+	foodEvent.DateStarted = _reportDate.Format("2006-01-02")
+
+	err = W.Session.Query(`
+	INSERT INTO epicfda.FoodEvent (
+	FoodEventID,
+	ReportNumber,
+	DateCreated,
+	DateStarted
+	) VALUES (?, ?, ?,?)`,
+	gocqlUuid,
+	foodEvent.ReportNumber,
+	foodEvent.DateCreated,
+	foodEvent.DateStarted).Exec()
+
+	if err != nil {
+		fmt.Println("Something Happened inserting the event ", err)
+	}
+
+	// We inser the outcomes
+	/*
+	CREATE TABLE epicfda.FoodEventOutcomes (
+		FoodEventID UUID Primary Key,
+		Name    VARCHAR
+	);
+	*/
+
+	for _, OutcomeName :=range (foodEvent.Outcomes) {
+			err = W.Session.Query(`
+			INSERT INTO epicfda.FoodEventOutcomes (
+			FoodEventID,
+			Name
+			) VALUES (?, ?)`,
+			gocqlUuid,
+			OutcomeName).Exec()
+			if err != nil {
+				fmt.Println("Something Happened inserting outcomes ", err)
+			}
+	}
+
+
+/*
+CREATE TABLE epicfda.FoodEventReactions (
+        FoodEventID  UUID Primary Key ,
+        Name    VARCHAR
+);
+*/
+
+	for _, reactions :=range (foodEvent.Reactions) {
+		err = W.Session.Query(`
+		INSERT INTO epicfda.FoodEventReactions (
+		FoodEventID,
+		Name
+		) VALUES (?, ?)`,
+		gocqlUuid,
+		reactions).Exec()
+		if err != nil {
+			fmt.Println("Something Happened inserting reactions ", err)
+		}
+	}	
+/*
+CREATE TABLE epicfda.Product(
+    FoodEventID   UUID Primary Key
+    ,NameBrand             VARCHAR  
+    ,IndustryCode           VARCHAR
+    ,Role               VARCHAR
+    ,IndustryName       VARCHAR
+);
+
+*/
+	for _, product := range(foodEvent.Products) {
+		err = W.Session.Query(`
+		INSERT INTO epicfda.Product (
+		FoodEventID,
+		NameBrand,
+		IndustryCode,
+		Role,
+		IndustryName
+		) VALUES (?,?,?,?,?)`,
+		gocqlUuid,
+		product.NameBrand,
+		product.IndustryCode,
+		product.Role,
+		product.IndustryName).Exec()
+
+		if err != nil {
+			fmt.Println("Something Happened inserting outcomes ", err)
+		}
+	}
+
+
+/*
+CREATE TABLE epicfda.Consumer(
+    FoodEventID   UUID Primary Key
+    ,Gender             VARCHAR  
+    ,Age           VARCHAR
+    ,AgeUnit               VARCHAR
+);
+*/
+		err = W.Session.Query(`
+		INSERT INTO epicfda.Consumer (
+		FoodEventID,
+		Gender,
+		Age,
+		AgeUnit
+		) VALUES (?,?,?,?)`,
+		gocqlUuid,
+		foodEvent.Consumer.Gender,
+		foodEvent.Consumer.Age,
+		foodEvent.Consumer.AgeUnit).Exec()
+
+		if err != nil {
+			fmt.Println("Something Happened inserting Consumer ", err)
+		}
+
+
 
 	return err
+
 }

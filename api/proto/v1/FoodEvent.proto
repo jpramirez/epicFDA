@@ -22,31 +22,30 @@ package v1;
       }
 */
 message Product {
-    string ProductID = 1;
-    string NameBrand = 2;
-    string IndustryCode = 3;
-    string Role = 4;
-    string IndustryName =5;
+    string name_brand = 1;
+    string industry_code = 2;
+    string role = 3;
+    string industry_name =4;
 }
 
 
 message Consumer {
-    string ConsumerID = 1;
-    string Gender = 2;
-    string Age = 3;
-    string AgeUnit =4;
+    string gender = 1;
+    string age = 2;
+    string age_unit =3;
 }
 
 message FoodEvent {
     string FoodEventID = 1;
     repeated string Reactions = 2;
-    int64 ReportNumber =3;
-    repeated string Outcomes =4 ;
-    repeated Product Products = 5;
-    string DateCreated =6;
-    string DateStarted = 7;
-    Consumer Consumer = 8;
+    string report_number =3;
+    repeated string outcomes =4 ;
+    repeated Product products = 5;
+    string date_created = 6;
+    string date_started = 7;
+    Consumer consumer = 8;
 }
+
 
 
 /*
@@ -78,6 +77,11 @@ message FoodEvent {
       ],
       "date_created": "20080214",
       "date_started": "20080205",
-
+      "consumer": {
+        "gender": "M",
+        "age": "54",
+        "age_unit": "year(s)"
+      }
+    }
     },
 */

@@ -50,7 +50,6 @@ func (S *StorageCassandra) Init() {
 	// No Authenticator for now.
 	//cluster.Authenticator = gocql.PasswordAuthenticator{Username: "Username", Password: "Password"} //replace the username and password fields with their real settings.
 
-
 	session, err := cluster.CreateSession()
 
 	fmt.Println("Step 3")

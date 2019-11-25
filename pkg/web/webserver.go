@@ -99,6 +99,8 @@ func (W *WebOne) New() http.Handler {
 	api.HandleFunc("/fetchAnimalDataSet", app.DownloadAnimalDataSet)
 	api.HandleFunc("/fetchFoodDataSet", app.DownloadFoodDataSet)
 	api.HandleFunc("/loadFoodEnforcement/{dataset}", app.LoadFoodEnforcement)
+	api.HandleFunc("/loadFoodEvent/{dataset}", app.LoadFoodEvent)
+
 
 	//For UI functions
 	app.Mux.HandleFunc("/", app.HandleIndex).Methods("GET")

@@ -1,3 +1,11 @@
+
+DROP TABLE epicfda.Product;
+DROP TABLE epicfda.Consumer;
+DROP TABLE epicfda.FoodEventReactions;
+DROP TABLE epicfda.FoodEventOutcomes;
+DROP TABLE FoodEvent;
+
+
 CREATE TABLE epicfda.Product(
     FoodEventID   UUID Primary Key
     ,NameBrand             VARCHAR  
@@ -24,9 +32,10 @@ CREATE TABLE epicfda.FoodEventOutcomes (
 );
 
 CREATE TABLE epicfda.FoodEvent (
-    FoodEventID UUID Primary Key
-    ,ReportNumber   int
+    FoodEventID UUID 
+    ,ReportNumber   VARCHAR
     ,DateCreated    DATE
     ,DateStarted    DATE
+    ,PRIMARY KEY (ReportNumber)
 );
 

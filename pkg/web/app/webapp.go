@@ -269,10 +269,52 @@ func (M *MainWebApp) LoadFoodEnforcement(w http.ResponseWriter, r *http.Request)
 
 	wr.Session = M.Storage.Session
 
-	wr.FindDataSet(M.Config.DataSetFolder, dataset, "FoodEnforcement")
+	files := wr.FindDataSet(M.Config.DataSetFolder, dataset, "Food/Enforcement")
 
 	/// HERE we need to replace with a search base on the file chosen by the url we can list for example  the zip files and decompress on demand.
-	wr.ReadJsonFoodEnforcementFromFile("DataSetFolder/Food/Enforcement/2019-11-12/food/enforcementdata/food-enforcement-0001-of-0001.json")
+	for _, f := range(files) {
+		fmt.Println(f)
+		wr.ReadJsonFoodEnforcementFromFile(f)
+	}
+	
+
+	var response JResponse
+	response.ResponseCode = "200 OK"
+	response.Message = "alive"
+	response.ResponseData = []byte("")
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "Application/json")
+	w.Write(js)
+}
+
+
+
+func (M *MainWebApp) LoadFoodEvent(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.Header().Set("Allow", "GET")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+	vars := mux.Vars(r)
+	dataset := vars["dataset"]
+
+	var wr wrangler.WranglerObj
+
+	wr.Session = M.Storage.Session
+
+	files := wr.FindDataSet(M.Config.DataSetFolder, dataset, "Food/Event")
+
+	/// HERE we need to replace with a search base on the file chosen by the url we can list for example  the zip files and decompress on demand.
+	for _, f := range(files) {
+		fmt.Println(f)
+		wr.ReadJsonFoodEventFromFile(f)
+	}
+	
 
 	var response JResponse
 	response.ResponseCode = "200 OK"
